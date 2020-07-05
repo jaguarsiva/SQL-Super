@@ -3,19 +3,16 @@
 ![PyPI](https://img.shields.io/pypi/v/1?color=blue&label=sql-super&logo=npm&style=flat-square)
 
 # *About* 
----
 Allergic to **Sql queries**! Dont worry! **sql-super** is there to help.
 Perform basic **Sql CRUD operations** without writing SQL Queries.
 
 # *Installation*
----
 #### Using npm:
 `$  npm install sql-super`
 
 Follow our installing guide for more information.
 
 # *Features*
----
 
 *   Create a database , table
 *   List all databases , tables
@@ -26,7 +23,6 @@ Follow our installing guide for more information.
 *   Delete a row from a table
 
 #   *Quick Start Docs*
----
 
 ###  Import
 `const sqlsuper = require("sql-super");`
@@ -37,7 +33,6 @@ We will be covering all the basic CRUD operations that can be done using **sql-s
 First of all to perform any operation with database , we have to connect to the database.
 
 ## Connect to a Database
-___
 
 Using **sqlsuper.connect()** function.
 This method takes five mandatory arguments of string datatype, and an optional callback function.
@@ -69,7 +64,7 @@ sqlsuper.connect("postgres","jaguar","localhost",5432,"test", function(error){
 #   **C**RUD - CREATE
 
 ## Create Database
----
+
 Using **sqlsuper.createDb()** function.
 This method takes one mandatory argument of string datatype, and an optional callback function.
 
@@ -97,7 +92,7 @@ sqlsuper.createDb("test", function(error){
 ```
 
 ## Create Table
----
+
 Using **sqlsuper.createTable()** function.
 This method takes two mandatory arguments, and an optional callback function.
 
@@ -156,7 +151,6 @@ sqlsuper.createTable( "sampletable" , details , function(error){
 });
 ```
 ## Insert Fully into a Table
----
 Using **sqlsuper.insertFully()** function.
 This method takes two mandatory arguments, and an optional callback function.
 
@@ -184,7 +178,7 @@ sqlsuper.insertFully("sampletable",[1,"siva","kallakurichi"], function(error){
 
 
 ##  Insert Only Few into a table
----
+
 Using **sqlsuper.insertFew()** function.
 This method takes two mandatory arguments, and an optional callback function.
 
@@ -194,26 +188,26 @@ This method takes two mandatory arguments, and an optional callback function.
 | data | object |
 | callback (optional) | function |
 
-Datas is the javascript object that contains the datas to be inserted!
+data is the javascript object that contains the data to be inserted!
 key is the column name.
 values is the data to be inserted at that column.
 #### Usage:
 ```
-let datas = {
+let data = {
     name: "siva",
     address: "kky"
 }
 
-sqlsuper.insertFew("sampletable",datas);
+sqlsuper.insertFew("sampletable",data);
 ```
 or
 ```
-let datas = {
+let data = {
     name: "siva",
     address: "kky"
 }
 
-sqlsuper.insertFew("sampletable", datas, function(error){
+sqlsuper.insertFew("sampletable", data, function(error){
     if(error)
         console.error(error);
     else
@@ -223,7 +217,7 @@ sqlsuper.insertFew("sampletable", datas, function(error){
 #   C**R**UD - READ
 
 ##  List all Databases
----
+
 Using **sqlsuper.listAllDbs()** function.
 This method returns the array of databases that are created by the user to the callback function.
 **results - array of databases**
@@ -238,7 +232,7 @@ sqlsuper.listAllDbs( function(error, results) {
 ```
 
 ##  List all Tables
----
+
 Using **sqlsuper.listAllTables()** function.
 This method returns the array of Tables that are under the connected database to the callback function.
 **results - array of tables**
@@ -253,7 +247,7 @@ sqlsuper.listAllTables(function(err,results){
 ```
 
 ##  Read rows in a table
----
+
 Using **sqlsuper.select()** function.
 This method takes one mandatory argument, and an optional condition and a callback function.
 
@@ -293,7 +287,7 @@ Example: ``` const condition = "Country='Germany' AND City='Berlin'"; ```
 
 #   CR**U**D - UPDATE
 ##  Update rows in a table
----
+
 Using **sqlsuper.update()** function.
 This method takes two mandatory arguments, and an optional condition and a callback function.
 
@@ -371,7 +365,7 @@ sqlsuper.dropDb("testDB", function(error){
 ```
 
 ## Delete/Drop a Table
----
+
 Using **sqlsuper.dropTable()** function.
 This method takes one mandatory argument and a callback function.
 
@@ -395,7 +389,7 @@ sqlsuper.dropTable( "sampletable2" , function(error){
 ```
 
 ## Delete a Row
----
+
 Using **sqlsuper.deleteRow()** function.
 This method takes one mandatory argument and a callback function.
 
