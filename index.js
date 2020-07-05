@@ -1,25 +1,35 @@
 const { Client } = require("pg");
-
 var client;
 
 exports.connect = async function(userName,userPass,reqHost,reqPort,reqDatabase,callback)
 {
-    client = new Client({
-        user: userName,
-        password: userPass,
-        host: reqHost,
-        port: reqPort,
-        database: reqDatabase
-      })
-
-    try {
-        await client.connect();
-        if(callback)    callback(false); 
-    } catch (error) {
-        if(callback)    callback(error); 
+    try 
+    {
+        if( typeof userName !== "string" || typeof userPass !== "string" || typeof reqPort !== "string" || typeof reqHost !== "string" || typeof reqDatabase !== "string" )
+            console.log("Connection failed!. Too few arguments to connect to database");
+        else
+        {
+            client = new Client( {
+                user: userName,
+                password: userPass,
+                host: reqHost,
+                port: reqPort,
+                database: reqDatabase
+            } );
+            
+            await client.connect();
+            if(typeof callback === "function")
+                callback(false);
+        }
+    } 
+    catch (error) 
+    {
+        if(typeof callback === "function")
+            callback(error); 
+        else
+            console.error(error);     
     }
 }
-
 
 // DATABASE FUNCTIONS
 
@@ -33,11 +43,15 @@ exports.listAllDbs = async function(callback){
         rows.forEach(function(name){
             results.push(name.datname);
         });
-        if(callback) callback(false,results);    
+        if(typeof callback === "function")
+            callback(false,results);    
     } 
     catch (error) 
     {
-        if(callback) callback(error,false); 
+        if(typeof callback === "function")
+            callback(error,false);
+        else
+            console.error(error); 
     }
     
 }
@@ -45,26 +59,44 @@ exports.listAllDbs = async function(callback){
 exports.createDb = async function( dbName , callback){
     try 
     {
-        const query = 'CREATE DATABASE \"' + dbName + '\";';
-        await client.query(query);
-        if(callback) callback(false);  
+        if(typeof dbName !== "string")
+            console.log("Data base name missing");
+        else
+        {
+            const query = 'CREATE DATABASE \"' + dbName + '\";';
+            await client.query(query);
+            if(typeof callback === "function")
+                callback(false);
+        }
     } 
     catch (error) 
     {
-        if(callback) callback(error);
+        if(typeof callback === "function")
+            callback(error);
+        else
+            console.error(error);
     }  
 }
 
 exports.dropDb = async function( dbName , callback){
     try 
     {
-        const query = 'DROP DATABASE \"' + dbName + '\";';
-        await client.query(query);
-        if(callback) callback(false);
+        if(dbName === undefined || typeof dbName === "function")
+            console.log("Data base name missing");
+        else
+        {
+            const query = 'DROP DATABASE \"' + dbName + '\";';
+            await client.query(query);
+            if(typeof callback === "function")
+                callback(false);
+        }
     } 
     catch (error) 
     {
-        if(callback) callback(error);
+        if(typeof callback === "function")
+            callback(error);
+        else
+            console.error(error);
     }  
 }
 
@@ -83,12 +115,15 @@ exports.createTable = async function( tableName , details , callback){
                 query = query.slice(0,-1) + ' );'; 
         }
         await client.query(query);
-        if(callback)    callback(false); 
+        if(typeof callback === "function")
+            callback(false); 
     } 
     catch (error) 
     {
-        console.error(error);
-        if(callback)    callback(error); 
+        if(typeof callback === "function")
+            callback(error); 
+        else
+            console.error(error);
     }  
 }
 
@@ -102,24 +137,37 @@ exports.listAllTables = async function( callback ){
         rows.forEach(function(name){
             results.push(name.table_name);
         });
-        if(callback)    callback(false,results); 
+        if(typeof callback === "function")
+            callback(false,results); 
     } 
     catch (error) 
     {
-        if(callback)    callback(error,false);
+        if(typeof callback === "function")
+            callback(error); 
+        else
+            console.error(error);
     }
 }
 
 exports.dropTable = async function( tableName , callback){
     try 
     {
-        const query = 'DROP TABLE \"' + tableName + '\";';
-        await client.query(query);
-        if(callback)    callback(false); 
+        if( tableName === undefined || tableName === "" || typeof tableName === "function" )
+            console.log("Table name missing.");
+        else
+        {
+            const query = 'DROP TABLE \"' + tableName + '\";';
+            await client.query(query);
+            if(typeof callback === "function")
+                callback(false); 
+        }
     } 
     catch (error) 
     {
-        if(callback)    callback(error); 
+        if(typeof callback === "function")
+            callback(error); 
+        else
+            console.error(error);
     }  
 }
 
@@ -137,51 +185,67 @@ exports.select = async function( tableName , condition , callback ){
             results = results.rows;
             condition(false,results);
         }
-        else
+        else if(typeof callback === "function")
         {
             const query = "SELECT * FROM \"" + tableName + "\" WHERE " + condition + ";";
             var results = await client.query(query);
             results = results.rows;
             callback(false,results); 
         }
+        else
+            console.log("Error! Read the documentation and try again.");
     }
     catch (error) 
     {
-        if(typeof condition === "function") condition(error);
-        else if(typeof callback === "function") callback(error);
-        else console.log(error);
+        if(typeof condition === "function")
+            condition(error);
+        else if(typeof callback === "function")
+            callback(error);
+        else
+            console.error(error);
     }
 };
 
 // INSERTING DATA INTO A TABLE
 
-exports.insertFully = async function(tableName,datas,callback){
+exports.insertFully = async function(tableName,data,callback){
     try {
-        if(tableName === undefined || datas === undefined)
-            console.log("tablename or datas missing.")
+        if(typeof tableName !== "string")
+            console.log("Table name missing.")
+        else if(data === undefined || typeof data === "function")
+            console.log("data to be inserted missing");
         else
         {
             var query = "INSERT INTO " + tableName + " VALUES("
-            for(let i=0; i<datas.length; i++ )
+            for(let i=0; i<data.length; i++ )
             {
                 query += " $" + (i+1) +",";
                 if(i === datas.length-1)
                     query = query.slice(0,-1) + ' );';              
             }
-            await client.query(query,datas);
-            if(callback) callback(false);
+            await client.query(query,data);
+            if(typeof callback === "function") 
+                callback(false);
         }
-    } catch (error) {
-        if(callback) callback(error);
+    }
+    catch (error) 
+    {
+        if(typeof callback === "function")
+            callback(error);
+        else
+            console.error(error);
     }
 };
 
-
-exports.insertFew = async function(tableName, datas, callback){
-    try {
-        if(tableName === undefined || datas === undefined)
-            console.log("tablename or datas missing.")
-        else
+exports.insertFew = async function(tableName, data, callback)
+{
+    try 
+    {
+        if(typeof tableName !== "string")
+            console.log("Table name missing.")
+        else if( typeof data !== "object" )
+            console.log("data to be inserted is wrong or missing.");
+        else if(typeof data === "object")
         {
             const keys = Object.keys(datas);
             const values = Object.values(datas);
@@ -200,12 +264,16 @@ exports.insertFew = async function(tableName, datas, callback){
                     query = query.slice(0,-1) + ' );'; 
             }
             await client.query(query,values);
-            if(callback) callback(false);
+            if(typeof callback === "function") 
+                callback(false);
         }
+        else
+            console.log("Error! Read the documentation and try again.");
     } 
     catch (error)
     {
-        if(callback) callback(error);
+        if(typeof callback === "function") 
+            callback(error);
     }
 };
 
@@ -214,55 +282,75 @@ exports.insertFew = async function(tableName, datas, callback){
 exports.deleteRow = async function(tableName, condition, callback){
     try 
     {
-        if(tableName === undefined || typeof tableName === "function")
+        if(typeof tableName !== "string")
             console.log("Table name missing.");
-        else if( condition === undefined || typeof condition === "function" )
+        else if( typeof condition !== "string" )
         {
             await client.query("DELETE FROM \"" + tableName + "\";");
-            if(condition) condition(false);
+            if(typeof condition === "function") 
+                condition(false);
         }
-        else
+        else if(typeof condition === "string")
         {
             const query = "DELETE FROM \"" + tableName + "\" WHERE " + condition + ";";
             await client.query(query);
-            if(callback) callback(false);
+            if(typeof condition === "function") 
+                callback(false);
         }
+        else
+            console.log("Error! Read the documentation and try again.");
     }
     catch (error) 
     {
-        if(typeof condition === "function") condition(error);
-        else if(typeof callback === "function") callback(error);
-        else console.log(error);
+        if(typeof condition === "function")
+            condition(error);
+        else if(typeof callback === "function") 
+            callback(error);
+        else 
+            console.error(error);
     }
 };
 
 exports.update = async function(tableName, changes, condition, callback){
     try
     {
-        if(tableName === undefined || typeof tableName === "function")
+        if(typeof tableName !== "string")
             console.log("Table name missing.");
-        else if(changes === undefined || typeof changes === "function")
-            console.log("Changes required");
-        else
+        else if(typeof changes !== "object")
+            console.log("Values to be Changed is wrong missing.");
+        else if(typeof changes === "object")
         {
             var query = "UPDATE \""+ tableName + "\" SET";
             const keys = Object.keys(changes);
             const values = Object.values(changes);
+            
             for(let i=0;i<keys.length; i++)
             {
                 query += " " + keys[i] + " = \'" + values[i] + "\',";
                 if(i === keys.length-1)
                     query = query.slice(0,-1) + ";"; 
             }
-            if(condition !== undefined && typeof condition !== "function")
+            
+            if( typeof condition === "string" )
                 query =  query.slice(0,-1) + " WHERE " + condition + ";"
+            
             await client.query(query);
-            if(typeof condition === "function") condition(false);
-            if(callback)    callback(false);
-        }   
+            
+            if(typeof condition === "function") 
+                condition(false);
+            else if(typeof callback === "function")    
+                callback(false);
+        }
+        else
+            console.log("Error! Read the documentation and try again.");
     }
     catch (error) 
     {
-        if(callback)    callback(error);
+        if(typeof condition === "function")
+            condition(error);
+        else if(typeof callback === "function") 
+            callback(error);
+        else 
+            console.error(error);
     }
 };
