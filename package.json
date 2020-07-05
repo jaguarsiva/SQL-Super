@@ -1,0 +1,29 @@
+{
+  "name": "sql-super",
+  "version": "1.0.0",
+  "description": "Perform basic SQL CRUD operations without writing SQL queries.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaguarsiva/Sql-Super.git"
+  },
+  "keywords": [
+    "sql",
+    "sql-super",
+    "sql super",
+    "postgres sql",
+    "mysql"
+  ],
+  "author": "Siva Chandran",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jaguarsiva/Sql-Super/issues"
+  },
+  "homepage": "https://github.com/jaguarsiva/Sql-Super#readme",
+  "dependencies": {
+    "pg": "^8.2.1"
+  }
+}
