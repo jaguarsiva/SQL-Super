@@ -1,4 +1,4 @@
-[SQL Image]("https://www.tutorialrepublic.com/lib/images/sql-illustration.png")
+\!\[SQL Image\]\(https://www.tutorialrepublic.com/lib/images/sql-illustration.png\)
 
 # About
 
@@ -45,14 +45,14 @@ First of all, to perform any operation with a database we have to connect to the
 
 ### sqlsuper.connect()  
   
-This method takes five mandatory arguments of string datatype and an optional callback function.
+This method takes five mandatory arguments and an optional callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
 | username | string |
 | password | string |
 | host | string |
-| port | string |
+| port | Number |
 | database to be connected with | string |
 | callback (Optional) | function |  
   
