@@ -1,41 +1,51 @@
-[sql image](https://www.tutorialrepublic.com/lib/images/sql-illustration.png)
+[SQL Image](./sql.png)
 
-![PyPI](https://img.shields.io/pypi/v/1?color=blue&label=sql-super&logo=npm&style=flat-square)
+# About
 
-# *About* 
-Allergic to **Sql queries**! Dont worry! **sql-super** is there to help.
-Perform basic **Sql CRUD operations** without writing SQL Queries.
+**SQL Super** is a package which perform basic **SQL CRUD operations** without writing SQL queries.
 
-# *Installation*
-#### Using npm:
-`$  npm install sql-super`
+
+# Note
+
+**SQL Super** can be used only for Postgres SQL. It is currently not available for mySQL.
+
+
+# Installation
+
+## Using npm:
+
+```
+$  npm install sql-super
+```
 
 Follow our installing guide for more information.
 
-# *Features*
+#  Features
 
-*   Create a database , table
-*   List all databases , tables
-*   Drop a database , table
-*   Insert into a table
-*   Read from a table
-*   Update a table row
-*   Delete a row from a table
+*   Creates a database and a table
+*   Lists all the databases and tables
+*   Drops a database and a table
+*   Inserts a row into the table
+*   Reads data from the table
+*   Updates a row in the table
+*   Deletes a row from the table
 
-#   *Quick Start Docs*
+#   Quick Start Docs
 
-###  Import
-`const sqlsuper = require("sql-super");`
----
+##  Import
 
+```
+const sqlsuper = require("sql-super");
+```
 
 We will be covering all the basic CRUD operations that can be done using **sql-super**.
-First of all to perform any operation with database , we have to connect to the database.
+First of all, To perform any operation with a database , we have to connect to the database.
 
 ## Connect to a Database
 
-Using **sqlsuper.connect()** function.
-This method takes five mandatory arguments of string datatype, and an optional callback function.
+### sqlsuper.connect()  
+
+This method takes five mandatory arguments of string datatype and an optional callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
@@ -45,14 +55,17 @@ This method takes five mandatory arguments of string datatype, and an optional c
 | port | string |
 | database to be connected with | string |
 | callback (Optional) | function |
-The Callback function gets one parameter called error, which gets the value of error, If the Connection failed.
 
-#### Usage:
+The callback function gets one parameter called "error", which gets the value of error, if the connection fails.
+
+### Usage:
 
 ```
 sqlsuper.connect("postgres","jaguar","localhost",5432,"test");
 ```
+
 or
+
 ```
 sqlsuper.connect("postgres","jaguar","localhost",5432,"test", function(error){
     if(error)
@@ -61,24 +74,27 @@ sqlsuper.connect("postgres","jaguar","localhost",5432,"test", function(error){
         console.log("connected to Database successfully!.");
 });
 ```
+
 #   **C**RUD - CREATE
 
 ## Create Database
 
-Using **sqlsuper.createDb()** function.
-This method takes one mandatory argument of string datatype, and an optional callback function.
+### sqlsuper.createDb()
+This method takes one mandatory argument of string datatype and an optional callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
 | database name | string |
 | callback (optional) | function |
 
-#### Usage:
+### Usage:
 
 ```
 sqlsuper.createDb("test");
 ```
+
 Or
+
 ```
 sqlsuper.createDb("test", function(error){
     if(error)
@@ -93,18 +109,19 @@ sqlsuper.createDb("test", function(error){
 
 ## Create Table
 
-Using **sqlsuper.createTable()** function.
-This method takes two mandatory arguments, and an optional callback function.
+### sqlsuper.createTable()
+This method takes two mandatory arguments and an optional callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | table_details | object |
 | callback (optional) | function |
 
-table_details is a javascript object which has the name of the column as key and datatype as value
+The table_details is a javascript object which has the name of the column as a key and datatype as a value.
 
-#### Example:
+### Example:
+
 ```
 CREATE TABLE Persons (
     ID int,
@@ -112,7 +129,9 @@ CREATE TABLE Persons (
     address varchar(255)
 );
 ```
-is simailar to
+
+is similar to
+
 ```
 let details = 
     {
@@ -122,7 +141,7 @@ let details =
     }
 ```
 
-#### Usage:
+### Usage:
 
 ```
 let details = 
@@ -134,7 +153,9 @@ let details =
 
 sqlsuper.createTable( "sampletable" , details);
 ```
+
 Or
+
 ```
 let details = 
     {
@@ -150,23 +171,30 @@ sqlsuper.createTable( "sampletable" , details , function(error){
         console.log("Table created successfully.");
 });
 ```
+
 ## Insert Fully into a Table
-Using **sqlsuper.insertFully()** function.
-This method takes two mandatory arguments, and an optional callback function.
+
+### sqlsuper.insertFully()
+
+This method takes two mandatory arguments and an optional callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | data | array |
 | callback (optional) | function |
 
-data is the array of data to be inserted!
-**NOTE: The order of the data should exactly match as those in table.**
-#### Usage:
+The data is an array of values to be inserted.
+**NOTE: The order of the data should exactly match the order in the table.**
+
+### Usage:
+
 ```
 sqlsuper.insertFully("sampletable",[1,"siva","Kallakurichi"]);
 ```
+
 or
+
 ```
 sqlsuper.insertFully("sampletable",[1,"siva","kallakurichi"], function(error){
     if(error)
@@ -177,21 +205,22 @@ sqlsuper.insertFully("sampletable",[1,"siva","kallakurichi"], function(error){
 ```
 
 
-##  Insert Only Few into a table
+##  Insert Few into a table
 
-Using **sqlsuper.insertFew()** function.
-This method takes two mandatory arguments, and an optional callback function.
+### sqlsuper.insertFew()
+
+This method takes two mandatory arguments and an optional callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | data | object |
 | callback (optional) | function |
 
-data is the javascript object that contains the data to be inserted!
-key is the column name.
-values is the data to be inserted at that column.
+The data is the javascript object that contains the values to be inserted, where keys are the column names and the values are the data to be inserted at those columns.
+
 #### Usage:
+
 ```
 let data = {
     name: "siva",
@@ -200,7 +229,9 @@ let data = {
 
 sqlsuper.insertFew("sampletable",data);
 ```
+
 or
+
 ```
 let data = {
     name: "siva",
@@ -214,14 +245,19 @@ sqlsuper.insertFew("sampletable", data, function(error){
         console.log("Inserted into table successfully.");
 });
 ```
+
 #   C**R**UD - READ
 
-##  List all Databases
+##  List all the Databases
 
-Using **sqlsuper.listAllDbs()** function.
-This method returns the array of databases that are created by the user to the callback function.
+### sqlsuper.listAllDbs()
+
+This method returns an array of databases that are created by the user to the callback function.
+
 **results - array of databases**
-#### Usage:
+
+### Usage:
+
 ```
 sqlsuper.listAllDbs( function(error, results) {
     if(error)
@@ -231,12 +267,16 @@ sqlsuper.listAllDbs( function(error, results) {
 });
 ```
 
-##  List all Tables
+##  List all the tables
 
-Using **sqlsuper.listAllTables()** function.
-This method returns the array of Tables that are under the connected database to the callback function.
+### sqlsuper.listAllTables()
+
+This method returns an array of tables that are under the connected database to the callback function.
+
 **results - array of tables**
-#### Usage:
+
+### Usage:
+
 ```
 sqlsuper.listAllTables(function(err,results){
     if(err)
@@ -246,21 +286,28 @@ sqlsuper.listAllTables(function(err,results){
 });
 ```
 
-##  Read rows in a table
+##  Read the rows in a table
 
-Using **sqlsuper.select()** function.
-This method takes one mandatory argument, and an optional condition and a callback function.
+### sqlsuper.select()
+
+This method takes only one mandatory argument,an optional condition and a callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | condition (optional) | string |
 | callback | function |
 
 **results - array of rows**
-When the condition parameter is not given , it returns all the rows from the table.
-Example: ``` SELECT * FROM TABLE;```
+
+When the condition parameter is not given, it returns all the rows from the table.
+
+#### Example: 
+
+``` SELECT * FROM TABLE;```
+
 #### Usage:
+
 ```
 sqlsuper.select( "sampletable", function(error,data){
     if(error)
@@ -269,8 +316,10 @@ sqlsuper.select( "sampletable", function(error,data){
         console.log(data);
 });
 ```
-When the condition parameter is given , it returns the rows which matches the conditions.
-Example: ``` SELECT * FROM TABLE WHERE id<20;```
+When the condition parameter is given, it returns the rows which match the condition.
+
+#### Example: 
+``` SELECT * FROM TABLE WHERE id<20;```
 
 ```
 sqlsuper.select( "sampletable", "id<20" , function(error,data){
@@ -280,30 +329,40 @@ sqlsuper.select( "sampletable", "id<20" , function(error,data){
         console.log(data);
 });
 ```
-**NOTE: When using a string for a condition use a single quote**
-Example: ``` const condition = "name='siva'"; ```
-You can also combine many conditions into one string and pass it. 
-Example: ``` const condition = "Country='Germany' AND City='Berlin'"; ```
+
+**NOTE: When using a string for a condition use a single quote.**
+
+#### Example:
+
+``` const condition = "name='siva'"; ```
+
+Many conditions can also be combined into a single string and pass it.
+
+#### Example: 
+
+``` const condition = "Country='Germany' AND City='Berlin'"; ```
 
 #   CR**U**D - UPDATE
+
 ##  Update rows in a table
 
-Using **sqlsuper.update()** function.
-This method takes two mandatory arguments, and an optional condition and a callback function.
+### sqlsuper.update()
+
+This method takes two mandatory arguments, an optional condition and a callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | changes | object |
 | condition (optional) | string |
 | callback (optional) | function |
 
-**changes** is the javascript object that contains the data to be updated!.
-Keys are the column names.
-Values are the data to be updated at that column.
+The **changes** is the javascript object that contains the data to be updated where keys are the column names and the values are the data to be updated in those columns.
 
-When the condition parameter is not given, then all rows will be updated.
+When the condition parameter is not given, all the rows will be updated.
+
 #### Usage:
+
 ```
 let changes = {
     name: "jaguar",
@@ -318,7 +377,8 @@ sqlsuper.update("sampletable", changes, function(error){
 });
 ```
 
-By Specifying the condition parameter , only the matching row(s) will be updated.
+By specifying the condition parameter, only the matching row(s) will be updated.
+
 ```
 let changes = {
     id: 12,
@@ -332,29 +392,43 @@ sqlsuper.update("sampletable", changes, "name='siva'",function(error){
         console.log("Updated succesfully.");
 });
 ```
-**NOTE: When using a string for conditions use a single quote**
-Example: ``` const condition = "name='siva'"; ```
-You can also combine many conditions into one string and pass it. 
-Example: ``` const condition = "Country='Germany' AND City='Berlin'"; ```
+
+**NOTE: When using a string for a condition use a single quote.**
+
+#### Example:
+
+``` const condition = "name='siva'"; ```
+
+Many conditions can also be combined into a single string and pass it.
+
+#### Example: 
+
+``` const condition = "Country='Germany' AND City='Berlin'"; ```
 
 
 #   CRU**D** - DELETE
+
 ## Delete/Drop a Database
----
-Using **sqlsuper.dropDb()** function.
-This method takes one mandatory argument and a callback function.
+
+### sqlsuper.dropDb()
+
+This method takes only one mandatory argument and a callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
 | db name | string |
 | callback (optional) | function |
 
-**NOTE: The database going to be deleted should not be the active connected database.**
+**NOTE: The database to be deleted should not be the active connected database.**
+
 #### Usage:
+
 ```
 sqlsuper.dropDb("test");
 ```
+
 OR
+
 ```
 sqlsuper.dropDb("testDB", function(error){
     if(error)
@@ -366,19 +440,23 @@ sqlsuper.dropDb("testDB", function(error){
 
 ## Delete/Drop a Table
 
-Using **sqlsuper.dropTable()** function.
-This method takes one mandatory argument and a callback function.
+### sqlsuper.dropTable()
+
+This method takes only one mandatory argument and a callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | callback (optional) | function |
 
 #### Usage:
+
 ```
 sqlsuper.dropTable( "sampletable2" );
 ```
+
 OR
+
 ```
 sqlsuper.dropTable( "sampletable2" , function(error){
     if(error)
@@ -390,25 +468,32 @@ sqlsuper.dropTable( "sampletable2" , function(error){
 
 ## Delete a Row
 
-Using **sqlsuper.deleteRow()** function.
-This method takes one mandatory argument and a callback function.
+### sqlsuper.deleteRow()
+
+This method takes only one mandatory argument and a callback function.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table name | string |
+| table_name | string |
 | condition | string |
 | callback (optional) | function |
 
 #### Usage:
-When the condition is not specified , it deleted all the rows , making the table empty.
+
+When the condition is not specified, it deletes all the rows making the table empty.
+
 ```
 sqlsuper.deleteRow("sampletable");
 ```
 
+OR
+
 ```
 sqlsuper.deleteRow("sampletable","name='siva'");
 ```
+
 OR
+
 ```
 sqlsuper.deleteRow("sampletable","name='siva'", function(error){
     if(error)
@@ -417,12 +502,19 @@ sqlsuper.deleteRow("sampletable","name='siva'", function(error){
         console.log("Deleted Successfully");
 });
 ```
-**NOTE: When using a string for conditions use a single quote**
-Example: ``` const condition = "name='siva'"; ```
-You can also combine many conditions into one string and pass it. 
-Example: ``` const condition = "Country='Germany' AND City='Berlin'"; ```
+
+**NOTE: When using a string for a condition use a single quote.**
+
+#### Example:
+
+``` const condition = "name='siva'"; ```
+
+Many conditions can also be combined into a single string and pass it.
+
+#### Example: 
+
+``` const condition = "Country='Germany' AND City='Berlin'"; ```
 
 ---
 
-# This package was developed by Siva Chandran.
-## [Click here to view my Portfolio.](https://sivachandran.netlify.app/)
+#### Developed by [Siva Chandran](https://sivachandran.netlify.app/).

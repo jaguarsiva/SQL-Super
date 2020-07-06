@@ -1,6 +1,6 @@
 {
   "name": "sql-super",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "Perform basic SQL CRUD operations without writing SQL queries.",
   "main": "index.js",
   "scripts": {
