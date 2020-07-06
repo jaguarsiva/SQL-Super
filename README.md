@@ -1,4 +1,4 @@
-\!\[SQL Image\]\(https://www.tutorialrepublic.com/lib/images/sql-illustration.png\)
+![SQL Image](https://www.tutorialrepublic.com/lib/images/sql-illustration.png)
 
 # About
 
