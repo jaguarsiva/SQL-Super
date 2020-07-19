@@ -52,7 +52,7 @@ This method takes five mandatory arguments and an optional callback function.
 | username | string |
 | password | string |
 | host | string |
-| port | Number |
+| port | string |
 | database to be connected with | string |
 | callback (Optional) | function |  
   
