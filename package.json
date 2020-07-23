@@ -1,6 +1,6 @@
 {
   "name": "sql-super",
-  "version": "2.0.5",
+  "version": "3.0.0",
   "description": "Perform basic SQL CRUD operations without writing SQL queries.",
   "main": "index.js",
   "scripts": {
@@ -15,7 +15,8 @@
     "sql-super",
     "sql super",
     "postgres sql",
-    "mysql"
+    "mysql",
+    "pgsql"
   ],
   "author": "Siva Chandran",
   "license": "MIT",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/jaguarsiva/Sql-Super#readme",
   "dependencies": {
+    "mysql": "^2.18.1",
     "pg": "^8.2.1"
   }
 }
