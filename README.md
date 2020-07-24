@@ -6,7 +6,6 @@
 
 **SQL Super** is a package which perform basic **SQL CRUD operations** without writing SQL queries.
 
-
 # Installation
 
 ## Using npm:
@@ -48,7 +47,7 @@ First of all, to perform any operation with a database we have to connect to the
 ## Connection functions
 
 *   connectMySQL()
-*   [disconnectMySQL()](#sqlsuper.disconnectmysql())
+*   disconnectMySQL()
 *   connectPgSQLClient()
 *   connectPgSQLPool()
 *   disconnectPgSQL()
