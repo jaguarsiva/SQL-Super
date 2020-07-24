@@ -1,10 +1,11 @@
 ![SQL Image](https://www.tutorialrepublic.com/lib/images/sql-illustration.png)
 
+#  Works for both mySQL and pgSQL.
+
 # About Sql Super
 
 **SQL Super** is a package which perform basic **SQL CRUD operations** without writing SQL queries.
 
-##  Works for both mySQL and pgSQL.
 
 # Installation
 
@@ -14,7 +15,7 @@
 $  npm install sql-super
 ```
 
-Follow our installing guide for more information.
+Follow our installation guide for more information.
 
 #  Features
 
@@ -47,7 +48,7 @@ First of all, to perform any operation with a database we have to connect to the
 ## Connection functions
 
 *   connectMySQL()
-*   disconnectMySQL()
+*   [disconnectMySQL()](#sqlsuper.dosconnectmysql())
 *   connectPgSQLClient()
 *   connectPgSQLPool()
 *   disconnectPgSQL()
