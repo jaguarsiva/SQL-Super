@@ -48,7 +48,7 @@ First of all, to perform any operation with a database we have to connect to the
 ## Connection functions
 
 *   connectMySQL()
-*   [disconnectMySQL()](#sqlsuper.dosconnectmysql())
+*   [disconnectMySQL()](#sqlsuper.disconnectmysql())
 *   connectPgSQLClient()
 *   connectPgSQLPool()
 *   disconnectPgSQL()
