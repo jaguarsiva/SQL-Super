@@ -1,14 +1,10 @@
 ![SQL Image](https://www.tutorialrepublic.com/lib/images/sql-illustration.png)
 
-# About
+# About Sql Super
 
 **SQL Super** is a package which perform basic **SQL CRUD operations** without writing SQL queries.
 
-
-#### Note
-
-**SQL Super** can be used only for Postgres SQL. It is currently not available for mySQL.
-
+##  Works for both mySQL and pgSQL.
 
 # Installation
 
@@ -22,17 +18,24 @@ Follow our installing guide for more information.
 
 #  Features
 
-*   Creates a database and a table.
-*   Lists all the databases and tables.
-*   Drops a database and a table.
-*   Inserts a row into the table.
-*   Reads data from the table.
-*   Updates a row in the table.
-*   Deletes a row from the table.
+*   Creates a connection.
+*   Disconnects a connection. 
+*   List all the databases.
+*   Create a database.
+*   Drop a database.
+*   Use a database.
+*   List all the tables.
+*   Create a table.
+*   Drop a table.
+*   Insert one row into the table.
+*   Insert many rows into the table.
+*   Read data from the table.
+*   Update a row in the table.
+*   Delete a row from the table.
 
 #   Quick Start Docs
 
-##  Import
+##  How to import
 
 ```
 const sqlsuper = require("sql-super");
@@ -41,33 +44,36 @@ const sqlsuper = require("sql-super");
 We will be covering all the basic CRUD operations that can be done using **sql-super**.
 First of all, to perform any operation with a database we have to connect to the database.
 
-## Connect to a Database
+## Connection functions
 
-### sqlsuper.connect()  
+*   connectMySQL()
+*   disconnectMySQL()
+*   connectPgSQLClient()
+*   connectPgSQLPool()
+*   disconnectPgSQL()
+
+### sqlsuper.connectMySQL()  
   
-This method takes five mandatory arguments and an optional callback function.
+This method is to connect to a mySQL Database. It takes four mandatory arguments and an optional callback function. This method returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| username | string |
-| password | string |
 | host | string |
-| port | string |
-| database to be connected with | string |
+| user | string |
+| password | string |
+| database | string |
 | callback (Optional) | function |  
   
-The callback function gets one parameter called "error", which gets the value of error, if the connection fails.
-
-### Usage:
+##### Promise based usage:
 
 ```
-sqlsuper.connect("postgres","jaguar","localhost",5432,"test");
+await sqlsuper.connectMySQL("host","your_username","your_password","database");
 ```
 
-or
+##### Callback based usage:
 
 ```
-sqlsuper.connect("postgres","jaguar","localhost",5432,"test", function(error){
+sqlsuper.connectMySQL("host","your_username","your_password","database", function(error){
     if(error)
         console.error(error);
     else
@@ -75,52 +81,268 @@ sqlsuper.connect("postgres","jaguar","localhost",5432,"test", function(error){
 });
 ```
 
-#   **C**RUD - CREATE
-
-## Create Database
-
-### sqlsuper.createDb()  
+### sqlsuper.disconnectMySQL()
   
-This method takes one mandatory argument of string datatype and an optional callback function.
+This method is to disconnect from a mySQL Database. It take an optional callback function as argument and returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| database name | string |
-| callback (optional) | function |  
+| callback (Optional) | function |  
 
-### Usage:
-
-```
-sqlsuper.createDb("test");
-```
-
-Or
+##### Promise based usage:
 
 ```
-sqlsuper.createDb("test", function(error){
+await sqlsuper.disconnectMySQL();
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.disconnectMySQL( function(error) {
     if(error)
         console.error(error);
     else
-    {
-        console.log("Database created successfully");
-        console.log("Make sure to connect to the newly created database!.");
-    }
+        console.log("Disconnected to database successfully!.");
 });
 ```
 
-## Create Table
-
-### sqlsuper.createTable()  
+### sqlsuper.connectPgSQLClient()  
   
-This method takes two mandatory arguments and an optional callback function.
+This method is to connect to a local pgSQL Database. It takes five mandatory arguments and an optional callback function and returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
-| table_name | string |
-| table_details | object |
-| callback (optional) | function |  
+| username | string |
+| password | string |
+| host | string |
+| port | string |
+| database | string |
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+await sqlsuper.connectPgSQLClient("your_username","your_password","host","port","database");
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.connectPgSQLClient("your_username","your_password","host","port","database", function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("connected to Database successfully!.");
+});
+```
+
+### sqlsuper.connectPgSQLPool()  
+  
+This method is to connect to a pgSQL cloud Database. It takes connection string and an optional callback function as arguments and returns a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| connection_string | string |
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+await sqlsuper.connectPgSQLPool("your_connection_string");
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.connectPgSQLPool("your_connection_string", function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("connected to Database successfully!.");
+});
+```
+
+### sqlsuper.disconnectPgSQL()
+  
+This method is to disconnect from a pgSQL Database. It take an optional callback function as argument and returns a promise. This method can be used for both connectPgSQLClient and connectPgSQLPool functions to disconnect.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| callback (Optional) | function |  
+
+##### Promise based usage:
+
+```
+await sqlsuper.disconnectPgSQL();
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.disconnectPgSQL( function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Disconnected to database successfully!.");
+});
+```
+
+## Database functions
+
+*   listAllDbs()
+*   createDb()
+*   dropDb()
+*   useDb()
+
+### sqlsuper.listAllDbs()  
+  
+This method lists all the databases. It takes an optional callback function. This method returns an array as promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+const results = await sqlsuper.listAllDbs();
+console.log(results);   // array of dbs
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.listAllDbs( function(error,results){
+    if(error)
+        console.error(error);
+    else
+        console.log(results);   // array of dbs
+});
+```
+
+### sqlsuper.createDb()  
+  
+This method creates a new database. It takes a string and an optional callback function as arguments and returns a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| database_name | string |  
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+await sqlsuper.createDb("sample_db");
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.createDb( "sample_db" , function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Successfully created.");
+});
+```
+
+### sqlsuper.dropDb()  
+  
+This method drops/deletes a database. It takes a string and an optional callback function as arguments and returns a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| database_name | string |
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+await sqlsuper.dropDb("sample_db");
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.dropDb( "sample_db",function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Database dropped successfully.");
+});
+```
+
+### sqlsuper.useDb()  
+  
+This method is to switch from one database to another database. It takes a string and an optional callback function as arguments and returns a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| database_name | string |
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+await sqlsuper.useDb("test_db");
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.useDb( function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Database switched successfully.");
+});
+```
+
+## Table functions
+
+*   listAllTables()
+*   createTable()
+*   dropTable()
+
+### sqlsuper.listAllTables()  
+  
+This method lists all the tables. It takes an optional callback function. This method returns an array as promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| callback (Optional) | function |  
+  
+##### Promise based usage:
+
+```
+const results = await sqlsuper.listAllTables();
+console.log(results);   // array of tables
+```
+
+##### Callback based usage:
+
+```
+sqlsuper.listAllTables( function(error,results){
+    if(error)
+        console.error(error);
+    else
+        console.log(results);   // array of tables
+});
+```
+
+### sqlsuper.createTable()  
+  
+This method creates a new table. It takes two mandatory arguments and an optional callback function. This method returns a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| table_name | string |  
+| table_details | object |  
+| callback (Optional) | function |  
   
 The table_details is a javascript object which has the name of the column as a key and datatype as a value.
+  
+**Note:** The datatype which is given at value is always a string.
 
 ### Example:
 
@@ -143,7 +365,7 @@ let details =
     }
 ```
 
-### Usage:
+##### Promise based usage:
 
 ```
 let details = 
@@ -152,11 +374,10 @@ let details =
         name: "varchar(255)",
         address: "varchar(255)"
     }
-
-sqlsuper.createTable( "sampletable" , details);
+await sqlsuper.createTable("sample_table",details);
 ```
 
-Or
+##### Callback based usage:
 
 ```
 let details = 
@@ -165,53 +386,61 @@ let details =
         name: "varchar(255)",
         address: "varchar(255)"
     }
-
-sqlsuper.createTable( "sampletable" , details , function(error){
-    if( error )
+sqlsuper.createTable( "sample_table" , details , function(error){
+    if(error)
         console.error(error);
     else
-        console.log("Table created successfully.");
+        console.log("Successfully created.");
 });
 ```
 
-## Insert Fully into a Table
-
-### sqlsuper.insertFully()  
+### sqlsuper.dropTable()  
   
-This method takes two mandatory arguments and an optional callback function.
+This method drops/deletes a table. It takes a string and an optional callback function as arguments and returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
 | table_name | string |
-| data | array |
-| callback (optional) | function |  
+| callback (Optional) | function |  
   
-The data is an array of values to be inserted.  
-**NOTE: The order of the data should exactly match the order in the table.**
-
-### Usage:
+##### Promise based usage:
 
 ```
-sqlsuper.insertFully("sampletable",[1,"siva","Kallakurichi"]);
+await sqlsuper.dropTable("sample_table");
 ```
 
-or
+##### Callback based usage:
 
 ```
-sqlsuper.insertFully("sampletable",[1,"siva","kallakurichi"], function(error){
+sqlsuper.dropTable( "sample_table",function(error){
     if(error)
         console.error(error);
     else
-        console.log("Inserted into table successfully.");
+        console.log("Table dropped successfully.");
 });
 ```
 
+## CRUD Operations
 
-##  Insert Few into a table
+1) CREATE - CRUD OPERATIONS
+* insertOne()
+* insertOneFully()
+* insertMany()
 
-### sqlsuper.insertFew()  
+2) READ - CRUD OPERATION
+* select()
+
+3) UPDATE - CRUD OPERATION
+* update()
+
+4) DELETE - CRUD OPERATION
+* deleteRow()
+
+## CREATE - CRUD OPERATION
+
+### sqlsuper.insertOne()
   
-This method takes two mandatory arguments and an optional callback function.
+This method inserts a row to the table. It takes a string , an object and an optional callback function as arguments and returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
@@ -220,302 +449,369 @@ This method takes two mandatory arguments and an optional callback function.
 | callback (optional) | function |  
   
 The data is the javascript object that contains the values to be inserted, where keys are the column names and the values are the data to be inserted at those columns.
-
-#### Usage:
-
-```
-let data = {
-    name: "siva",
-    address: "kky"
-}
-
-sqlsuper.insertFew("sampletable",data);
-```
-
-or
+  
+##### Promise based usage:
 
 ```
-let data = {
-    name: "siva",
-    address: "kky"
-}
+const data = {
+    id: 1,
+    name: "sivachandran"
+};
+await sqlsuper.insertOne("test_table",data);
+// This is equal to INSERT INTO "test_table"(id,name) VALUES(1,'sivachandran');
+```
 
-sqlsuper.insertFew("sampletable", data, function(error){
+##### Callback based usage:
+
+```
+const data = {
+    id: 1,
+    name: "sivachandran"
+};
+sqlsuper.insertOne("test_table" , data , function(error){
     if(error)
         console.error(error);
     else
-        console.log("Inserted into table successfully.");
+        console.log("Inserted Successfully.");
 });
 ```
 
-#   C**R**UD - READ
-
-##  List all the Databases
-
-### sqlsuper.listAllDbs()  
+### sqlsuper.insertOneFully()
   
-This method returns an array of databases that are created by the user to the callback function.
-
-**results - array of databases**
-
-### Usage:
-
-```
-sqlsuper.listAllDbs( function(error, results) {
-    if(error)
-        console.error(error);
-    else
-        console.log(results);//["db1","db2","db3"]
-});
-```
-
-##  List all the tables
-
-### sqlsuper.listAllTables()  
-  
-This method returns an array of tables that are under the connected database to the callback function.
-
-**results - array of tables**
-
-### Usage:
-
-```
-sqlsuper.listAllTables(function(err,results){
-    if(err)
-        console.error(err);
-    else    
-        console.log(results);//["table1","table2"]
-});
-```
-
-##  Read the rows in a table
-
-### sqlsuper.select()  
-  
-This method takes only one mandatory argument, an optional condition and a callback function.
+This method inserts a complete row to the table. It takes a string , an array and an optional callback function as arguments and returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
 | table_name | string |
-| condition (optional) | string |
-| callback | function |  
+| data | array |
+| callback (optional) | function |  
   
+The data is an array of values to be inserted.
+**NOTE: The order of the values in data array should exactly match the order of corresponding columns in the table.**
+  
+##### Promise based usage:
+
+```
+const data = [1,"siva","CHN"];
+await sqlsuper.insertOneFully("test_table",data);
+// This is equal to INSERT INTO "test_table" VALUES(1,'siva','CHN');
+```
+
+##### Callback based usage:
+
+```
+const data = [1,"siva","CHN"];
+
+sqlsuper.insertOneFully("test_table" , data , function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Inserted Successfully.");
+});
+```
+
+### sqlsuper.insertMany()
+  
+This method inserts many rows into the table. It takes two mandatory arguments and two optional arguments and returns the number of rows inserted as a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| table_name | string |
+| data | array of arrays |
+| cols(optional) | array |
+| callback (optional) | function |  
+  
+The data is an array of values array to be inserted. The cols is an array of column names where only the data are to be inserted. The column names must be specified as a string in the cols array.
+**NOTE: In case cols array is not specified then the order of the values in data array should exactly match the order of corresponding columns in the table.**
+  
+##### Promise based usage:
+
+The below code inserts fully complete rows into the table as the cols parameter was not specified.
+
+```
+const data = [
+        [1,"siva","house"],
+        [2,"chandran","home"],
+        [3,"jaguar","address"],
+        [4,"jey","address"]
+    ];
+await sqlsuper.insertMany( "test_table" , data );
+```
+
+OR
+
+The below code inserts many rows but only at those specified columns into the table as the cols parameter was specified.
+
+```
+const data = [
+        [1,"siva"],
+        [2,"chandran"],
+        [3,"jaguar"],
+        [4,"jey"]
+    ];
+const cols = ["id","name"];
+await sqlsuper.insertMany( "test_table" , data , cols );
+```
+
+##### Callback based usage:
+
+The below code inserts fully complete rows into the table as the cols parameter was not specified.
+
+```
+const data = [
+        [1,"siva","house"],
+        [2,"chandran","home"],
+        [3,"jaguar","address"],
+        [4,"jey","address"]
+    ];
+
+sqlsuper.insertMany( "test_table" , data , function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Inserted Successfully.");
+});
+```
+
+```
+const data = [
+        [1,"siva"],
+        [2,"chandran"],
+        [3,"jaguar"],
+        [4,"jey"]
+    ];
+const cols = ["id","name"];
+
+sqlsuper.insertMany("test_table" , data , cols , function(error){
+    if(error)
+        console.error(error);
+    else
+        console.log("Inserted Successfully.");
+});
+```
+
+## READ - CRUD OPERATION
+
+### sqlsuper.select()
+  
+This method reads data from the table. It takes a mandatory string argument and two optional arguments and returns an array of rows as a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| table_name | string |
+| conditions (optional) | string |
+| callback (optional) | function |  
+  
+##### Promise based usage:
+
+When the conditions parameter is not given, it returns all the rows from the table.
+
+#### Example: 
+
+``` SELECT * FROM "test_table";```
+
+```
+var results = await sqlsuper.select( "test_table" );
+console.log(results);
+```
+
 **results - array of rows**
 
-When the condition parameter is not given, it returns all the rows from the table.
+When the conditions parameter is given, it returns only the rows that match the conditions from the table.
 
-#### Example: 
-
-``` SELECT * FROM TABLE;```
-
-#### Usage:
+``` SELECT * FROM "test_table" WHERE id=4;```
 
 ```
-sqlsuper.select( "sampletable", function(error,data){
+var results = await sqlsuper.select( "test_table" , "id=4" );
+console.log(results);
+```
+
+##### Callback based usage:
+
+When the conditions parameter is not given, it returns all the rows from the table.
+
+```
+sqlsuper.select( "test_table" , function(error,results){
+    if(error)
+        console.error(error);
+    else
+        console.log("results");
+});
+```
+
+When the conditions parameter is given, it returns only the rows that match the conditions from the table.
+
+```
+sqlsuper.select( "test_table" , "id=4" , function(error,results){
+    if(error)
+        console.error(error);
+    else
+        console.log("results");
+});
+```
+
+**NOTE: When using a string for a condition use a single quote.**
+
+##### Example:
+
+``` let condition = "name='siva'"; ```
+
+Many conditions can also be combined into a single string and can be passed.
+
+##### Example: 
+
+``` let condition = "Country='Germany' AND City='Berlin'"; ```
+
+
+## UPDATE - CRUD OPERATION
+
+### sqlsuper.update()
+  
+This method updates new data to the table. It takes two mandatory arguments, two optional arguments and returns a promise.
+
+| Parameter | Datatype |
+| ----------- | ----------- |
+| table_name | string |
+| data | object |
+| conditions (optional) | string |
+| callback (optional) | function |  
+
+The **data** is the javascript object that contains the data to be updated where keys are the column names and the values are the data to be updated in those columns.
+  
+##### Promise based usage:
+
+When the conditions parameter is not given, it updates all the rows from the table.
+
+```
+const data = {
+    id: 2,
+    name: "jaguar"
+}
+
+await sqlsuper.update( "test_table" , data );  
+```
+
+When the conditions parameter is given, it updates only the rows that match the conditions from the table.
+
+``` 
+const data = {
+    id: 2,
+    name: "jaguar"
+}
+
+await sqlsuper.update( "test_table" , data , "id=4" );    
+```
+
+##### Callback based usage:
+
+When the conditions parameter is not given, it updates all the rows from the table.
+
+```
+const data = {
+    id: 2,
+    name: "jaguar"
+}
+
+sqlsuper.update( "test_table" , data , function(error){
     if(error)
         console.log(error);
     else
-        console.log(data);
-});
+        console.log("updated successfully.");
+});  
 ```
-When the condition parameter is given, it returns the rows which match the condition.
 
-#### Example: 
-``` SELECT * FROM TABLE WHERE id<20;```
+When the conditions parameter is given, it updates only the rows that match the conditions from the table.
 
-```
-sqlsuper.select( "sampletable", "id<20" , function(error,data){
+``` 
+const data = {
+    id: 2,
+    name: "jaguar"
+}
+
+sqlsuper.update( "test_table" , data , "id=4" , function(error){
     if(error)
         console.log(error);
     else
-        console.log(data);
-});
+        console.log("updated successfully.");
+});    
 ```
 
 **NOTE: When using a string for a condition use a single quote.**
 
-#### Example:
+##### Example:
 
-``` const condition = "name='siva'"; ```
+``` let condition = "name='siva'"; ```
 
 Many conditions can also be combined into a single string and can be passed.
 
-#### Example: 
+##### Example: 
 
-``` const condition = "Country='Germany' AND City='Berlin'"; ```
+``` let condition = "Country='Germany' AND City='Berlin'"; ```
 
-#   CR**U**D - UPDATE
 
-##  Update rows in a table
+## DELETE - CRUD OPERATION
 
-### sqlsuper.update()  
+### sqlsuper.deleteRow()
   
-This method takes two mandatory arguments, an optional condition and a callback function.
+This method deletes row(s) from the table. It takes a mandatory string argument , two optional arguments and returns a promise.
 
 | Parameter | Datatype |
 | ----------- | ----------- |
 | table_name | string |
-| changes | object |
-| condition (optional) | string |
+| conditions (optional) | string |
 | callback (optional) | function |  
   
-The **changes** is the javascript object that contains the data to be updated where keys are the column names and the values are the data to be updated in those columns.
+##### Promise based usage:
 
-When the condition parameter is not given, all the rows will be updated.
-
-#### Usage:
+When the conditions parameter is not given, it deletes all the rows from the table.
 
 ```
-let changes = {
-    name: "jaguar",
-    address: "Chennai"
-};
+await sqlsuper.deleteRow( "test_table" );  
+```
 
-sqlsuper.update("sampletable", changes, function(error){
+When the conditions parameter is given, it deletes only the rows that match the conditions from the table.
+
+```
+await sqlsuper.deleteRow( "test_table" , "id=4" );    
+```
+
+##### Callback based usage:
+
+When the conditions parameter is not given, it deletes all the rows from the table.
+
+```
+sqlsuper.deleteRow( "test_table" , function(error){
     if(error)
-        console.error(error);
+        console.log(error);
     else
-        console.log("Updated succesfully.");
-});
+        console.log("deleted successfully.");
+});  
 ```
 
-By specifying the condition parameter, only the matching row(s) will be updated.
+When the conditions parameter is given, it deletes only the rows that match the conditions from the table.
 
-```
-let changes = {
-    id: 12,
-    address: "Chennai"
-};
-
-sqlsuper.update("sampletable", changes, "name='siva'",function(error){
+``` 
+sqlsuper.deleteRow( "test_table" , "id=4" , function(error){
     if(error)
-        console.error(error);
+        console.log(error);
     else
-        console.log("Updated succesfully.");
-});
+        console.log("deleted successfully.");
+});    
 ```
 
 **NOTE: When using a string for a condition use a single quote.**
 
-#### Example:
+##### Example:
 
-``` const condition = "name='siva'"; ```
-
-Many conditions can also be combined into a single string and can be passed.
-
-#### Example: 
-
-``` const condition = "Country='Germany' AND City='Berlin'"; ```
-
-
-#   CRU**D** - DELETE
-
-## Delete/Drop a Database  
-
-### sqlsuper.dropDb()  
-  
-This method takes only one mandatory argument and a callback function.
-
-| Parameter | Datatype |
-| ----------- | ----------- |
-| db name | string |
-| callback (optional) | function |  
-  
-**NOTE: The database to be deleted should not be the active connected database.**
-
-#### Usage:
-
-```
-sqlsuper.dropDb("test");
-```
-
-OR
-
-```
-sqlsuper.dropDb("testDB", function(error){
-    if(error)
-        console.error(error);
-    else
-        console.log("Database dropped successfully");
-});
-```
-
-## Delete/Drop a Table
-
-### sqlsuper.dropTable()
-
-This method takes only one mandatory argument and a callback function.
-
-| Parameter | Datatype |
-| ----------- | ----------- |
-| table_name | string |
-| callback (optional) | function |  
-  
-#### Usage:
-
-```
-sqlsuper.dropTable( "sampletable2" );
-```
-
-OR
-
-```
-sqlsuper.dropTable( "sampletable2" , function(error){
-    if(error)
-            console.error(error);
-        else
-        console.log("Table dropped successfully.");
-} );
-```
-
-## Delete a Row
-
-### sqlsuper.deleteRow()  
-  
-This method takes only one mandatory argument and a callback function.
-
-| Parameter | Datatype |
-| ----------- | ----------- |
-| table_name | string |
-| condition | string |
-| callback (optional) | function |  
-  
-#### Usage:
-
-When the condition is not specified, it deletes all the rows making the table empty.
-
-```
-sqlsuper.deleteRow("sampletable");
-```
-
-OR
-
-```
-sqlsuper.deleteRow("sampletable","name='siva'");
-```
-
-OR
-
-```
-sqlsuper.deleteRow("sampletable","name='siva'", function(error){
-    if(error)
-        console.error(error);
-    else
-        console.log("Deleted Successfully");
-});
-```
-
-**NOTE: When using a string for a condition use a single quote.**
-
-#### Example:
-
-``` const condition = "name='siva'"; ```
+``` let condition = "name='siva'"; ```
 
 Many conditions can also be combined into a single string and can be passed.
 
-#### Example: 
+##### Example: 
 
-``` const condition = "Country='Germany' AND City='Berlin'"; ```
+``` let condition = "Country='Germany' AND City='Berlin'"; ```
+
+
 
 ---
 
