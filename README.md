@@ -52,7 +52,7 @@ First of all, to perform any operation with a database we have to connect to the
 *   connectPgSQLPool()
 *   disconnectPgSQL()
 
-### sqlsuper.connectMySQL()  
+## sqlsuper.connectMySQL()  
   
 This method is to connect to a mySQL Database. It takes four mandatory arguments and an optional callback function. This method returns a promise.
 
@@ -81,7 +81,9 @@ sqlsuper.connectMySQL("host","your_username","your_password","database", functio
 });
 ```
 
-### sqlsuper.disconnectMySQL()
+---
+
+## sqlsuper.disconnectMySQL()
   
 This method is to disconnect from a mySQL Database. It take an optional callback function as argument and returns a promise.
 
@@ -106,7 +108,9 @@ sqlsuper.disconnectMySQL( function(error) {
 });
 ```
 
-### sqlsuper.connectPgSQLClient()  
+---
+
+## sqlsuper.connectPgSQLClient()  
   
 This method is to connect to a local pgSQL Database. It takes five mandatory arguments and an optional callback function and returns a promise.
 
@@ -136,7 +140,9 @@ sqlsuper.connectPgSQLClient("your_username","your_password","host","port","datab
 });
 ```
 
-### sqlsuper.connectPgSQLPool()  
+---
+
+## sqlsuper.connectPgSQLPool()  
   
 This method is to connect to a pgSQL cloud Database. It takes connection string and an optional callback function as arguments and returns a promise.
 
@@ -162,7 +168,9 @@ sqlsuper.connectPgSQLPool("your_connection_string", function(error){
 });
 ```
 
-### sqlsuper.disconnectPgSQL()
+---
+
+## sqlsuper.disconnectPgSQL()
   
 This method is to disconnect from a pgSQL Database. It take an optional callback function as argument and returns a promise. This method can be used for both connectPgSQLClient and connectPgSQLPool functions to disconnect.
 
@@ -194,7 +202,9 @@ sqlsuper.disconnectPgSQL( function(error){
 *   dropDb()
 *   useDb()
 
-### sqlsuper.listAllDbs()  
+---
+
+## sqlsuper.listAllDbs()  
   
 This method lists all the databases. It takes an optional callback function. This method returns an array as promise.
 
@@ -220,7 +230,9 @@ sqlsuper.listAllDbs( function(error,results){
 });
 ```
 
-### sqlsuper.createDb()  
+---
+
+## sqlsuper.createDb()  
   
 This method creates a new database. It takes a string and an optional callback function as arguments and returns a promise.
 
@@ -246,7 +258,9 @@ sqlsuper.createDb( "sample_db" , function(error){
 });
 ```
 
-### sqlsuper.dropDb()  
+---
+
+## sqlsuper.dropDb()  
   
 This method drops/deletes a database. It takes a string and an optional callback function as arguments and returns a promise.
 
@@ -272,7 +286,9 @@ sqlsuper.dropDb( "sample_db",function(error){
 });
 ```
 
-### sqlsuper.useDb()  
+---
+
+## sqlsuper.useDb()  
   
 This method is to switch from one database to another database. It takes a string and an optional callback function as arguments and returns a promise.
 
@@ -297,6 +313,8 @@ sqlsuper.useDb( function(error){
         console.log("Database switched successfully.");
 });
 ```
+
+---
 
 ## Table functions
 
@@ -330,7 +348,9 @@ sqlsuper.listAllTables( function(error,results){
 });
 ```
 
-### sqlsuper.createTable()  
+---
+
+## sqlsuper.createTable()  
   
 This method creates a new table. It takes two mandatory arguments and an optional callback function. This method returns a promise.
 
@@ -394,7 +414,9 @@ sqlsuper.createTable( "sample_table" , details , function(error){
 });
 ```
 
-### sqlsuper.dropTable()  
+---
+
+## sqlsuper.dropTable()  
   
 This method drops/deletes a table. It takes a string and an optional callback function as arguments and returns a promise.
 
@@ -420,25 +442,20 @@ sqlsuper.dropTable( "sample_table",function(error){
 });
 ```
 
+---
+
 ## CRUD Operations
 
-1) CREATE - CRUD OPERATIONS
 * insertOne()
 * insertOneFully()
 * insertMany()
-
-2) READ - CRUD OPERATION
 * select()
-
-3) UPDATE - CRUD OPERATION
 * update()
-
-4) DELETE - CRUD OPERATION
 * deleteRow()
 
 ## CREATE - CRUD OPERATION
 
-### sqlsuper.insertOne()
+## sqlsuper.insertOne()
   
 This method inserts a row to the table. It takes a string , an object and an optional callback function as arguments and returns a promise.
 
@@ -476,7 +493,9 @@ sqlsuper.insertOne("test_table" , data , function(error){
 });
 ```
 
-### sqlsuper.insertOneFully()
+---
+
+## sqlsuper.insertOneFully()
   
 This method inserts a complete row to the table. It takes a string , an array and an optional callback function as arguments and returns a promise.
 
@@ -510,7 +529,9 @@ sqlsuper.insertOneFully("test_table" , data , function(error){
 });
 ```
 
-### sqlsuper.insertMany()
+---
+
+## sqlsuper.insertMany()
   
 This method inserts many rows into the table. It takes two mandatory arguments and two optional arguments and returns the number of rows inserted as a promise.
 
@@ -590,9 +611,11 @@ sqlsuper.insertMany("test_table" , data , cols , function(error){
 });
 ```
 
+---
+
 ## READ - CRUD OPERATION
 
-### sqlsuper.select()
+## sqlsuper.select()
   
 This method reads data from the table. It takes a mandatory string argument and two optional arguments and returns an array of rows as a promise.
 
@@ -662,10 +685,11 @@ Many conditions can also be combined into a single string and can be passed.
 
 ``` let condition = "Country='Germany' AND City='Berlin'"; ```
 
+---
 
 ## UPDATE - CRUD OPERATION
 
-### sqlsuper.update()
+## sqlsuper.update()
   
 This method updates new data to the table. It takes two mandatory arguments, two optional arguments and returns a promise.
 
@@ -748,10 +772,11 @@ Many conditions can also be combined into a single string and can be passed.
 
 ``` let condition = "Country='Germany' AND City='Berlin'"; ```
 
+---
 
 ## DELETE - CRUD OPERATION
 
-### sqlsuper.deleteRow()
+## sqlsuper.deleteRow()
   
 This method deletes row(s) from the table. It takes a mandatory string argument , two optional arguments and returns a promise.
 
